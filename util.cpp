@@ -23,6 +23,7 @@ std::set<std::string> parseStringToWords(string rawWords)
         if (isalnum(c)) // if its alphanumerica (aka not a punctuation or space)
         {                               
             word.push_back(tolower(c)); // add this character to the end of the word
+            //need to use tolower() here and not the givenconvToLower bc convToLower takes in a string and not a char.
         }
         else // if u reach a punctuation character
         {                         
