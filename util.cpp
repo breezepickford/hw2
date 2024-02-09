@@ -15,6 +15,14 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
 {
+//PLAN
+//split rawWords into words at spaces and punctuation
+//for each word
+//  remove any punctuation 
+//  check length >1
+//  if length aprop 
+//      conv all letters to lower case
+//      add it to set of keywords
 
 
 
