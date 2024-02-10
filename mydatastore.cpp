@@ -107,56 +107,121 @@ void MyDataStore::dump(std::ostream &ofile)
     ofile << "</users>" << std::endl;
 }
 
-void MyDataStore::addToCart(std::string username, int productIndex) {
-    //make  username lowercase
+void MyDataStore::addToCart(std::string username, int productIndex)
+{
+    // make  username lowercase
     std::transform(username.begin(), username.end(), username.begin(), ::tolower);
 
-    //if user DNE return
-    if (users_.find(username) == users_.end()) {
+    // if user DNE return
+    if (users_.find(username) == users_.end())
+    {
         std::cout << "Invalid username" << std::endl;
         return;
     }
 
-    //if the product index passed in DNE in the set of curr products: return
-    if (productIndex < 0 || static_cast<size_t>(productIndex) >= products_.size()) {
+    // if the product index passed in DNE in the set of curr products: return
+    if (productIndex < 0 || static_cast<size_t>(productIndex) >= products_.size())
+    {
         std::cout << "Invalid product index" << std::endl;
         return;
     }
 
-    //if everythings good then add the product to the users cart 
+    // if everythings good then add the product to the users cart
     userCarts_[username].push(products_[productIndex]);
 }
 
-void MyDataStore::viewCart(std::string username) {
-    //make user lowercase
+void MyDataStore::viewCart(std::string username)
+{
+    // make user lowercase
     std::transform(username.begin(), username.end(), username.begin(), ::tolower);
 
-    //if username DNE in user map give error message and return
-    if (users_.find(username) == users_.end()) {
+    // if username DNE in user map give error message and return
+    if (users_.find(username) == users_.end())
+    {
         std::cout << "Invalid username" << std::endl;
         return;
     }
 
-    //display the stuff in cart bc user exists atp
-    //make temp queue of products (a cart) and make it havea copy of everything that the users cart has
-    std::queue<Product*> tempCart = userCarts_[username];
+    // display the stuff in cart bc user exists atp
+    // make temp queue of products (a cart) and make it havea copy of everything that the users cart has
+    std::queue<Product *> tempCart = userCarts_[username];
     int index = 1;
-    //while the cart isnt empty
-    while (!tempCart.empty()) {
-        //print the first product string (use the displaystring function from before)
+    // while the cart isnt empty
+    while (!tempCart.empty())
+    {
+        // print the first product string (use the displaystring function from before)
         std::cout << index << ": " << tempCart.front()->displayString() << std::endl;
-        //remove this item from temp cart
+        // remove this item from temp cart
         tempCart.pop();
-        //augment index
+        // augment index
         ++index;
     }
 }
 
-
 void MyDataStore::buyCart(std::string username)
 {
+    // make user lowercase
+    for (size_t i = 0; i < username.length(); ++i)
+    {
+        username[i] = tolower(username[i]);
+    }
+
+    // if user DNE return
+    std::map<std::string, User *>::iterator userIt = users_.find(username);
+    if (userIt == users_.end())
+    {
+        std::cout << "Invalid username" << std::endl;
+        return;
+    }
+
+    // user pointer = user iterators value (the user obj)
+    User *user = userIt->second;
+    // cart = users cart
+    std::queue<Product *> &cart = userCarts_[username];
+
+    // make temp cart to store products user cannot purchase
+    std::queue<Product *> tempQueue;
+
+    // while theres smth in the cart
+    while (!cart.empty())
+    {
+        // product = the first thing in cart
+        Product *product = cart.front();
+        // remove this first thing from the cart
+        cart.pop();
+
+        // if this product has a qty > 0 and users balance > the price of prod
+        if (product->getQty() > 0 && user->getBalance() >= product->getPrice())
+        {
+            // remove cost from users balance
+            user->deductAmount(product->getPrice());
+            // reduce qty by 1
+            product->subtractQty(1);
+        }
+        else
+        { // if users couldnt buy it (either out of stock or not enough money)
+            // put product in temp cart
+            tempQueue.push(product);
+        }
+    }
+
+    // while temp cart has smth in it, put temp cart back in now empty cart
+    while (!tempQueue.empty())
+    {
+        // keep it in order by taking from the front
+        cart.push(tempQueue.front());
+        tempQueue.pop();
+    }
 }
 
 void MyDataStore::updateKeywordMap(Product *p)
 {
+    // use previously made keywords function to get keywords for this passed in product
+    std::set<std::string> keywords = p->keywords();
+    // iterate over set of keywords
+    for (std::set<std::string>::iterator it = keywords.begin(); it != keywords.end(); ++it)
+    {
+        keywordToProductsMap_[*it].insert(p);
+        // add the keywords to the map
+    }
 }
