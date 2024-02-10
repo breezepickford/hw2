@@ -15,9 +15,11 @@ Book::~Book() {}
 
 set<string> Book::keywords() const
 {
+    //do the keyword stuff
     set<string> keys = parseStringToWords(name_);
     set<string> authKeys = parseStringToWords(author_);
     keys.insert(authKeys.begin(), authKeys.end());
+    //dont need to parse isbn for punctuation
     keys.insert(isbn_);
     return keys;
 }
