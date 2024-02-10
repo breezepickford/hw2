@@ -25,68 +25,63 @@ void MyDataStore::addUser(User *u)
 }
 
 // SEARCH
-std::vector<Product *> MyDataStore::search(std::vector<std::string> &terms)
+std::vector<Product *> MyDataStore::search(std::vector<std::string> &terms, int type)
 {
-    // if search didnt have anything in it
+    // if search didn't have anything in it
     if (terms.empty())
     {
         return std::vector<Product *>();
     }
 
-    // make all terms lower case
+    // make all temrs lowercase
     for (size_t i = 0; i < terms.size(); ++i)
     {
         terms[i] = convToLower(terms[i]);
     }
-
-    // search type string holds the first term (AND / OR)
-    std::string searchType = terms[0];
-    // remove the first term bc its not a keyword
-    terms.erase(terms.begin());
-
     // empty set of products to store results
     std::set<Product *> results;
-    // checks if its the first real term or not
-    bool isFirstKeyword = true;
+    // checks if its the first term or not
+    bool isFirstTerm = true;
 
     // for every term
-    for (const std::string &term : terms)
+    for (size_t i = 0; i < terms.size(); ++i)
     {
-        // find the products that match the keyword
-        std::map<std::string, std::set<Product *>>::iterator it = keywordToProductsMap_.find(term);
-        // if it exists on the map
+        std::map<std::string, std::set<Product *>>::iterator it = keywordToProductsMap_.find(terms[i]);
+        // if term exists in the map
         if (it != keywordToProductsMap_.end())
         {
-            // if this is the first keyword were doing
-            if (isFirstKeyword)
+            // if its the first term were doing
+            if (isFirstTerm)
             {
-                // initialize results set with the associated product
-                results = it->second;
-                // now chnge it so we know we've put in the first product
-                isFirstKeyword = false;
+                results = it->second; // initialize results set with the associated product
+                isFirstTerm = false;  // now chnge bool so we know we've put in the first product
             }
             else
             { // if its not the first keyword were doing
-                if (searchType == "AND")
-                { // if the search started with AND
+                if (type == 0)
+                { // AND search
+                    results = setIntersection(results, it->second);
                     // use the set intersection function to fill the results set
                     // it-> second is a set of products associated with the curr search term (it)
-                    results = setIntersection(results, it->second);
                 }
-                else if (searchType == "OR")
-                {                                            // if the search started with OR
-                    results = setUnion(results, it->second); // use the set union function to fill the results set
+                else if (type == 1)
+                { // OR search
+                    results = setUnion(results, it->second);
+                    ; // use the set union function to fill the results set
                 }
             }
         }
-        else if (searchType == "AND")
-        { // if ketwords not on map and AND was the first part of their search clear what was in the results and exit loop
+        else if (type == 0 && !isFirstTerm)
+        {
+            // if ketwords not on map and AND was the first part of their search clear what was in the results and exit loop
             results.clear();
             break;
         }
     }
+
     // make results srt a vector and return it
-    return std::vector<Product *>(results.begin(), results.end());
+    std::vector<Product *> resultVec(results.begin(), results.end());
+    return resultVec;
 }
 
 void MyDataStore::dump(std::ostream &ofile)

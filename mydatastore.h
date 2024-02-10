@@ -16,7 +16,7 @@ public:
     void addProduct(Product *p) override; // add prod
     void addUser(User *u) override;       // add user
     // search
-    std::vector<Product*> search(std::vector<std::string>& terms);
+    std::vector<Product*> search(std::vector<std::string>& terms, int type) override;
     // dump (print) info
     void dump(std::ostream &ofile) override;
 
