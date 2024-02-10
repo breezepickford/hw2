@@ -30,7 +30,7 @@ std::set<T> setIntersection(std::set<T> &s1, std::set<T> &s2)
     std::set<T> result;
 
     // iterator it: from the start of the set, while iterator isnt null (end), move iterator)
-    for (typename std::set<T>::iterator it = s1.begin(); it != s1.end; ++it)
+    for (typename std::set<T>::iterator it = s1.begin(); it != s1.end(); ++it)
     {
         // if set finds the value pointed to by it and its not null
         if (s2.find(*it) != s2.end())
