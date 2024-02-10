@@ -107,13 +107,51 @@ void MyDataStore::dump(std::ostream &ofile)
     ofile << "</users>" << std::endl;
 }
 
-void MyDataStore::addToCart(std::string username, int productIndex)
-{
+void MyDataStore::addToCart(std::string username, int productIndex) {
+    //make  username lowercase
+    std::transform(username.begin(), username.end(), username.begin(), ::tolower);
+
+    //if user DNE return
+    if (users_.find(username) == users_.end()) {
+        std::cout << "Invalid username" << std::endl;
+        return;
+    }
+
+    //if the product index passed in DNE in the set of curr products: return
+    if (productIndex < 0 || static_cast<size_t>(productIndex) >= products_.size()) {
+        std::cout << "Invalid product index" << std::endl;
+        return;
+    }
+
+    //if everythings good then add the product to the users cart 
+    userCarts_[username].push(products_[productIndex]);
 }
 
-void MyDataStore::viewCart(std::string username)
-{
+void MyDataStore::viewCart(std::string username) {
+    //make user lowercase
+    std::transform(username.begin(), username.end(), username.begin(), ::tolower);
+
+    //if username DNE in user map give error message and return
+    if (users_.find(username) == users_.end()) {
+        std::cout << "Invalid username" << std::endl;
+        return;
+    }
+
+    //display the stuff in cart bc user exists atp
+    //make temp queue of products (a cart) and make it havea copy of everything that the users cart has
+    std::queue<Product*> tempCart = userCarts_[username];
+    int index = 1;
+    //while the cart isnt empty
+    while (!tempCart.empty()) {
+        //print the first product string (use the displaystring function from before)
+        std::cout << index << ": " << tempCart.front()->displayString() << std::endl;
+        //remove this item from temp cart
+        tempCart.pop();
+        //augment index
+        ++index;
+    }
 }
+
 
 void MyDataStore::buyCart(std::string username)
 {
