@@ -1,8 +1,13 @@
 #ifndef CLOTHING_H
 #define CLOTHING_H
 
-#include "product.h"
+#include <iostream>
 #include <string>
+#include <set>
+#include <vector>
+#include <algorithm>
+
+#include "product.h"
 
 class Clothing : public Product {
     // inherits public from product class
