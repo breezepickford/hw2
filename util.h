@@ -16,7 +16,7 @@ very important note about using iterators with C++ containers
  (e.g. vector, set, map ): if you are iterating over a container
  with iterators, you should NOT modify the contents as you iterate
 */
-
+ 
 template <typename T>
 std::set<T> setIntersection(std::set<T> &s1, std::set<T> &s2)
 {
