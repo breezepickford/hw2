@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         cerr << "Please specify a database file" << endl;
         return 1;
     }
-
+ 
     /****************
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
