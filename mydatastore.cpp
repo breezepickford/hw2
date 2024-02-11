@@ -38,7 +38,8 @@ void MyDataStore::addProduct(Product *p)
 void MyDataStore::addUser(User *u)
 {
     // add new user to map with username as key, remember this returns user ptr
-    users_[u->getName()] = u;
+    users_[convToLower(u->getName())] = u;
+    // just changed this to conv to lower before adding it to the map
 }
 
 // SEARCH
@@ -125,6 +126,7 @@ void MyDataStore::addToCart(std::string username, int productIndex)
     std::transform(username.begin(), username.end(), username.begin(), ::tolower);
 
     // if user DNE return
+    // getting an invalid username error?
     if (users_.find(username) == users_.end())
     {
         std::cout << "Invalid username" << std::endl;
