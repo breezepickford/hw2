@@ -141,7 +141,7 @@ void MyDataStore::addToCart(std::string username, int productIndex)
     // if everythings good then add the product to the users cart
     userCarts_[username].push(products_[productIndex]);
 }
-
+ 
 void MyDataStore::viewCart(std::string username)
 {
     // make user lowercase
