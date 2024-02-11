@@ -172,7 +172,7 @@ void MyDataStore::viewCart(std::string username)
     while (!tempCart.empty())
     {
         // print the first product string (use the displaystring function from before)
-        std::cout << "Item " << index << "/n" << tempCart.front()->displayString() << std::endl;
+        std::cout << "Item " << index << "\n" << tempCart.front()->displayString() << std::endl;
         // remove this item from temp cart
         tempCart.pop();
         // augment index
