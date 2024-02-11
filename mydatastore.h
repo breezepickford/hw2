@@ -13,10 +13,11 @@ public:
     MyDataStore();  // constructor
     ~MyDataStore(); // decondtuctor
 
-    void addProduct(Product *p) override; // add prod
-    void addUser(User *u) override;       // add user
+    void updateSearchResults(const std::vector<Product *> &hits); // update last search results
+    void addProduct(Product *p) override;                         // add prod
+    void addUser(User *u) override;                               // add user
     // search
-    std::vector<Product*> search(std::vector<std::string>& terms, int type) override;
+    std::vector<Product *> search(std::vector<std::string> &terms, int type) override;
     // dump (print) info
     void dump(std::ostream &ofile) override;
 
@@ -28,6 +29,7 @@ public:
     void buyCart(std::string username);
 
 private:
+    std::vector<Product *> lastSearchResults_;                        // stores the last search made by user so hits vector (local to main in amazon is avail to the addtocart funct)
     std::vector<Product *> products_;                                 // vect of products added to store
     std::map<std::string, User *> users_;                             // map of users and their username is the key
     std::map<std::string, std::set<Product *>> keywordToProductsMap_; // map connect keyword to products w/ that word

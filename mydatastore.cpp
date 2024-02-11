@@ -22,6 +22,11 @@ MyDataStore::~MyDataStore()
     }
 }
 
+void MyDataStore::updateSearchResults(const std::vector<Product *> &hits)
+{
+    lastSearchResults_ = hits;
+}
+
 void MyDataStore::addProduct(Product *p)
 {
     // add product to products vector
@@ -127,7 +132,7 @@ void MyDataStore::addToCart(std::string username, int productIndex)
     }
 
     // if the product index passed in DNE in the set of curr products: return
-    if (productIndex < 0 || static_cast<size_t>(productIndex) >= products_.size())
+    if (productIndex < 0 || static_cast<size_t>(productIndex) >= lastSearchResults_.size())
     {
         std::cout << "Invalid product index" << std::endl;
         return;
