@@ -117,14 +117,24 @@ int main(int argc, char *argv[])
                 int hit_number;
                 if (ss >> username >> hit_number)
                 {
-                    // hit_number minus 1 bc index starts with 0
-                    ds.addToCart(username, hit_number - 1);
+                    //minus 1 bc of 0 index
+                    int adjustedIndex = hit_number - 1;
+                    //fixed so it now checks that index is valid
+                    if (adjustedIndex >= 0 && adjustedIndex < static_cast<int>(hits.size()))
+                    {
+                        ds.addToCart(username, adjustedIndex);
+                    }
+                    else
+                    {
+                        cout << "Invalid product index" << endl;
+                    }
                 }
                 else
                 {
                     cout << "Invalid arguments for ADD command" << endl;
                 }
             }
+
             else if (cmd == "VIEWCART")
             {
                 string username;
