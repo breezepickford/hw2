@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
      *  DataStore type to your derived type
      ****************/
     MyDataStore ds;
-
+ 
     // Instantiate the individual section and product parsers we want
     ProductSectionParser *productSectionParser = new ProductSectionParser;
     productSectionParser->addProductParser(new ProductBookParser);
