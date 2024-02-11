@@ -6,8 +6,20 @@ MyDataStore::MyDataStore()
 {
 }
 
+// deconstructor to hopefully fix memory leak when making all new products
 MyDataStore::~MyDataStore()
 {
+    // Delete all dynamically allocated Products
+    for (size_t i = 0; i < products_.size(); ++i)
+    {
+        delete products_[i];
+    }
+
+    // Delete all dynamically allocated Users
+    for (std::map<std::string, User *>::iterator it = users_.begin(); it != users_.end(); ++it)
+    {
+        delete it->second;
+    }
 }
 
 void MyDataStore::addProduct(Product *p)
