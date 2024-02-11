@@ -45,7 +45,7 @@ void MyDataStore::addUser(User *u)
 // SEARCH
 std::vector<Product *> MyDataStore::search(std::vector<std::string> &terms, int type)
 {
-    // if search didn't have anything in it
+    // if search didn't have anything in it or were done
     if (terms.empty())
     {
         return std::vector<Product *>();
@@ -99,6 +99,7 @@ std::vector<Product *> MyDataStore::search(std::vector<std::string> &terms, int 
 
     // make results srt a vector and return it
     std::vector<Product *> resultVec(results.begin(), results.end());
+    updateSearchResults(resultVec); // trying to fix problems by updating this
     return resultVec;
 }
 
