@@ -117,21 +117,21 @@ int main(int argc, char *argv[])
                 int hit_number;
                 if (ss >> username >> hit_number)
                 {
-                    //minus 1 bc of 0 index
+                    // minus 1 bc of 0 index
                     int adjustedIndex = hit_number - 1;
-                    //fixed so it now checks that index is valid
-                    if (adjustedIndex >= 0 && adjustedIndex < static_cast<int>(hits.size()))
+                    // fixed so it now checks that index is valid
+                    if (adjustedIndex >= 0 && adjustedIndex < static_cast<int>(hits.size()) && ds.userExists(username))
                     {
                         ds.addToCart(username, adjustedIndex);
                     }
                     else
                     {
-                        cout << "Invalid product index" << endl;
+                        cout << "Invalid request" << endl;
                     }
                 }
                 else
                 {
-                    cout << "Invalid arguments for ADD command" << endl;
+                    cout << "Invalid request" << endl;
                 }
             }
 

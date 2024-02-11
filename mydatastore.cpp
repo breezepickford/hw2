@@ -22,6 +22,13 @@ MyDataStore::~MyDataStore()
     }
 }
 
+bool MyDataStore::userExists(const std::string &username)
+{
+    std::string lowerUsername = username;
+    std::transform(lowerUsername.begin(), lowerUsername.end(), lowerUsername.begin(), ::tolower);
+    return users_.find(lowerUsername) != users_.end();
+}
+
 void MyDataStore::updateSearchResults(const std::vector<Product *> &hits)
 {
     lastSearchResults_ = hits;
@@ -102,7 +109,7 @@ std::vector<Product *> MyDataStore::search(std::vector<std::string> &terms, int 
     updateSearchResults(resultVec); // trying to fix problems by updating this
     return resultVec;
 }
- 
+
 void MyDataStore::dump(std::ostream &ofile)
 {
     ofile << "<products>" << std::endl;

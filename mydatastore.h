@@ -13,6 +13,7 @@ public:
     MyDataStore();  // constructor
     ~MyDataStore(); // decondtuctor
 
+    bool userExists(const std::string& username); //checks if user exists (bc users_ is private)
     void updateSearchResults(const std::vector<Product *> &hits); // update last search results
     void addProduct(Product *p) override;                         // add prod
     void addUser(User *u) override;                               // add user
