@@ -102,7 +102,7 @@ std::vector<Product *> MyDataStore::search(std::vector<std::string> &terms, int 
     updateSearchResults(resultVec); // trying to fix problems by updating this
     return resultVec;
 }
-
+ 
 void MyDataStore::dump(std::ostream &ofile)
 {
     ofile << "<products>" << std::endl;
